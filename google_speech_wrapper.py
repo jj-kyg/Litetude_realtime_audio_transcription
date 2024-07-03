@@ -104,7 +104,7 @@ class GoogleSpeechWrapper:
 
         audio_generator = client.generator()
         requests = (speech.StreamingRecognizeRequest(audio_content=content) for content in audio_generator)
-        responses = speech_client.streaming_recognize(streaming_config, requests)
+        responses = await speech_client.streaming_recognize(streaming_config, requests).__aiter__()  # Ensure it is an async iterator
         await listen_print_loop(responses, client)
 
     @staticmethod
